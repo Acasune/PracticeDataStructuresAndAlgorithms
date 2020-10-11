@@ -7,7 +7,7 @@ typedef struct ListNode
   struct ListNode *next;
 } NODE, *Nodep;
 
-void InsertInLinkedList(struct ListNode *head, int data, int position)
+void InsertInLinkedList(struct ListNode **head, int data, int position)
 {
   int k = 0;
   struct ListNode *p, *q, *newNode;
@@ -18,12 +18,12 @@ void InsertInLinkedList(struct ListNode *head, int data, int position)
     return;
   }
   newNode->data = data;
-  p = head;
+  p = *head;
   // Insert at head;
   if (position == 0)
   {
     newNode->next = p;
-    head = newNode;
+    *head = newNode;
     return;
   }
   // traverse all elements of the list
@@ -37,19 +37,19 @@ void InsertInLinkedList(struct ListNode *head, int data, int position)
   newNode->next = p;
 };
 
-void DeleteNodeFromLinkedList(struct ListNode *head, int position)
+void DeleteNodeFromLinkedList(struct ListNode **head, int position)
 {
   int k = 0;
   struct ListNode *p, *q;
   if (head == NULL)
   {
-    printf("List Emptu");
+    printf("List Empty");
     return;
   }
-  p = head;
-  if (position == 1)
+  p = *head;
+  if (position == 0)
   {
-    head = head->next;
+    *head = (*head)->next;
     free(p);
     return;
   }
@@ -86,12 +86,16 @@ int main()
   displist(first_p);
 
   printf("---Add Some Values---\n");
-  InsertInLinkedList(first_p, 3, 3);
-  InsertInLinkedList(first_p, 10, 2);
-  InsertInLinkedList(first_p, 100, 1);
+  InsertInLinkedList(&first_p, 3, 3);
+  InsertInLinkedList(&first_p, 10, 2);
+  InsertInLinkedList(&first_p, 100, 1);
+  InsertInLinkedList(&first_p, 1000, 0);
   displist(first_p);
 
-  printf("---Delete Initial Values---\n");
+  printf("---Delete 3rd and Initial Values---\n");
+  DeleteNodeFromLinkedList(&first_p, 2);
+  DeleteNodeFromLinkedList(&first_p, 0);
+  displist(first_p);
 }
 
 void displist(Nodep fp)
